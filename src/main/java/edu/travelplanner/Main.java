@@ -1,5 +1,11 @@
 package edu.travelplanner;
 
+import edu.travelplanner.decorator.BasicCityPlan;
+import edu.travelplanner.decorator.CityCenterVisit;
+import edu.travelplanner.decorator.MuseumVisit;
+import edu.travelplanner.decorator.ParkVisit;
+import edu.travelplanner.decorator.ShoppingMallVisit;
+import edu.travelplanner.decorator.TravelPlanComponent;
 import edu.travelplanner.iterator.WeatherCityIterator;
 import edu.travelplanner.iterator.WeatherIteratorFactory;
 import edu.travelplanner.model.City;
@@ -47,6 +53,21 @@ public class Main {
                 for (WeatherState weatherState : WeatherState.values()) {
                     printCitiesByWeather(weatherState, cityRepository.getCities());
                 }
+
+                System.out.println();
+                System.out.println("=== Decorator Test: City Activity Planner ===");
+                City selectedCity = cityRepository.getCities().get(0);
+
+                TravelPlanComponent plan = new BasicCityPlan(selectedCity);
+                plan = new MuseumVisit(plan);
+                plan = new ShoppingMallVisit(plan);
+                plan = new ParkVisit(plan);
+                plan = new CityCenterVisit(plan);
+
+                System.out.println("Selected city: " + selectedCity.getName());
+                System.out.println("Plan description: " + plan.getDescription());
+                System.out.println("Total cost: " + plan.getTotalCost() + " TL");
+                System.out.println("Total time: " + plan.getTotalTimeInHours() + " hours");
 
             } catch (Exception e) {
                 System.err.println("Application could not start.");
