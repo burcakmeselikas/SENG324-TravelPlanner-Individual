@@ -1,0 +1,86 @@
+[
+  {
+    "name": "Istanbul",
+    "population": 15840900,
+    "area": 5461.0,
+    "currentTemperature": 18.0,
+    "currentWeatherState": "CLOUDY"
+  },
+  {
+    "name": "Ankara",
+    "population": 5782000,
+    "area": 24521.0,
+    "currentTemperature": 13.0,
+    "currentWeatherState": "SUNNY"
+  },
+  {
+    "name": "Izmir",
+    "population": 4462000,
+    "area": 11891.0,
+    "currentTemperature": 22.0,
+    "currentWeatherState": "SUNNY"
+  },
+  {
+    "name": "Antalya",
+    "population": 2696000,
+    "area": 20723.0,
+    "currentTemperature": 25.0,
+    "currentWeatherState": "SUNNY"
+  },
+  {
+    "name": "Bursa",
+    "population": 3214000,
+    "area": 10813.0,
+    "currentTemperature": 16.0,
+    "currentWeatherState": "RAINY"
+  },
+  {
+    "name": "Konya",
+    "population": 2320000,
+    "area": 40838.0,
+    "currentTemperature": 11.0,
+    "currentWeatherState": "CLOUDY"
+  },
+  {
+    "name": "Adana",
+    "population": 2274000,
+    "area": 14030.0,
+    "currentTemperature": 27.0,
+    "currentWeatherState": "SUNNY"
+  },
+  {
+    "name": "Trabzon",
+    "population": 824000,
+    "area": 4685.0,
+    "currentTemperature": 12.0,
+    "currentWeatherState": "RAINY"
+  },
+  {
+    "name": "Erzurum",
+    "population": 749000,
+    "area": 25066.0,
+    "currentTemperature": -2.0,
+    "currentWeatherState": "SNOWY"
+  },
+  {
+    "name": "Eskisehir",
+    "population": 906000,
+    "area": 13652.0,
+    "currentTemperature": 9.0,
+    "currentWeatherState": "CLOUDY"
+  },
+  {
+    "name": "Gaziantep",
+    "population": 2154000,
+    "area": 6803.0,
+    "currentTemperature": 20.0,
+    "currentWeatherState": "SUNNY"
+  },
+  {
+    "name": "Kayseri",
+    "population": 1445000,
+    "area": 16970.0,
+    "currentTemperature": 7.0,
+    "currentWeatherState": "SNOWY"
+  }
+]
