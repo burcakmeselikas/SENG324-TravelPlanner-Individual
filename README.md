@@ -1,11 +1,10 @@
-# SENG324 Travel Planner Individual Project
+# SENG 324 Smart Travel Planner - Individual Project
 
-Java Swing travel planner application developed for SENG 324 Software Design Patterns.
+This project is a Java Swing desktop application developed for the SENG 324 Software Design Patterns term project.
 
-This project demonstrates the following design patterns:
+The application simulates a smart travel planning system where users can browse cities, sort them by different criteria, filter them by live weather conditions, observe dynamic weather charts, and build a decorated travel itinerary with optional activities.
 
-- Singleton
-- Strategy
-- Iterator
-- Observer
-- Decorator
+The project is implemented as a Java desktop application, not a web application. It runs with an executable fat JAR file using:
+
+```bash
+java -jar TravelPlannerSystem.jar
