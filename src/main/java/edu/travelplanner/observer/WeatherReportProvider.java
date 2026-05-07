@@ -70,22 +70,44 @@ public class WeatherReportProvider implements Runnable {
 
     private void updateWeatherRandomly() {
         for (City city : cities) {
-            double newTemperature = generateRandomTemperature();
             WeatherState newWeatherState = generateRandomWeatherState();
+            double newTemperature = generateTemperatureForWeatherState(newWeatherState);
 
-            city.setCurrentTemperature(newTemperature);
             city.setCurrentWeatherState(newWeatherState);
+            city.setCurrentTemperature(newTemperature);
         }
-    }
-
-    private double generateRandomTemperature() {
-        double temperature = -5 + (random.nextDouble() * 40);
-        return Math.round(temperature * 10.0) / 10.0;
     }
 
     private WeatherState generateRandomWeatherState() {
         WeatherState[] states = WeatherState.values();
         return states[random.nextInt(states.length)];
+    }
+
+    private double generateTemperatureForWeatherState(WeatherState weatherState) {
+        double temperature;
+
+        switch (weatherState) {
+            case SNOWY:
+                temperature = randomBetween(-10.0, 2.0);
+                break;
+            case RAINY:
+                temperature = randomBetween(3.0, 18.0);
+                break;
+            case CLOUDY:
+                temperature = randomBetween(5.0, 24.0);
+                break;
+            case SUNNY:
+                temperature = randomBetween(18.0, 38.0);
+                break;
+            default:
+                temperature = randomBetween(0.0, 30.0);
+        }
+
+        return Math.round(temperature * 10.0) / 10.0;
+    }
+
+    private double randomBetween(double min, double max) {
+        return min + (random.nextDouble() * (max - min));
     }
 
     private void notifyObservers() {
