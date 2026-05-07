@@ -1,0 +1,191 @@
+@startuml
+title SENG 324 Smart Travel Planner - UML Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+package "model" {
+    class City {
+        - name : String
+        - population : int
+        - area : double
+        - currentTemperature : double
+        - currentWeatherState : WeatherState
+        + getName() : String
+        + getPopulation() : int
+        + getArea() : double
+        + getCurrentTemperature() : double
+        + getCurrentWeatherState() : WeatherState
+        + setCurrentTemperature(double) : void
+        + setCurrentWeatherState(WeatherState) : void
+    }
+
+    enum WeatherState {
+        SUNNY
+        CLOUDY
+        RAINY
+        SNOWY
+    }
+
+    City --> WeatherState
+}
+
+package "repository - Singleton Pattern" {
+    class CityRepository {
+        - instance : CityRepository
+        - cities : List<City>
+        - CityRepository()
+        + getInstance() : CityRepository
+        + getCities() : List<City>
+        + getCityCount() : int
+    }
+
+    CityRepository --> City
+}
+
+package "strategy - Strategy Pattern" {
+    interface CitySortStrategy {
+        + sort(List<City>) : List<City>
+        + getStrategyName() : String
+    }
+
+    class NameSortStrategy
+    class PopulationSortStrategy
+    class AreaSortStrategy
+
+    class CitySorter {
+        - strategy : CitySortStrategy
+        + CitySorter(CitySortStrategy)
+        + setStrategy(CitySortStrategy) : void
+        + getStrategy() : CitySortStrategy
+        + sortCities(List<City>) : List<City>
+    }
+
+    CitySortStrategy <|.. NameSortStrategy
+    CitySortStrategy <|.. PopulationSortStrategy
+    CitySortStrategy <|.. AreaSortStrategy
+    CitySorter o--> CitySortStrategy
+    CitySortStrategy --> City
+}
+
+package "iterator - Iterator Pattern" {
+    interface WeatherCityIterator {
+        + hasNext() : boolean
+        + next() : City
+        + reset() : void
+        + getWeatherState() : WeatherState
+    }
+
+    abstract class AbstractWeatherCityIterator {
+        - weatherState : WeatherState
+        - filteredCities : List<City>
+        - currentIndex : int
+        + hasNext() : boolean
+        + next() : City
+        + reset() : void
+        + getWeatherState() : WeatherState
+    }
+
+    class SunnyCityIterator
+    class CloudyCityIterator
+    class RainyCityIterator
+    class SnowyCityIterator
+
+    class WeatherIteratorFactory {
+        + createIterator(WeatherState, List<City>) : WeatherCityIterator
+    }
+
+    WeatherCityIterator <|.. AbstractWeatherCityIterator
+    AbstractWeatherCityIterator <|-- SunnyCityIterator
+    AbstractWeatherCityIterator <|-- CloudyCityIterator
+    AbstractWeatherCityIterator <|-- RainyCityIterator
+    AbstractWeatherCityIterator <|-- SnowyCityIterator
+    WeatherIteratorFactory --> WeatherCityIterator
+    AbstractWeatherCityIterator --> City
+    AbstractWeatherCityIterator --> WeatherState
+}
+
+package "observer - Observer Pattern" {
+    interface WeatherObserver {
+        + onWeatherUpdated(List<City>) : void
+    }
+
+    class WeatherReportProvider {
+        - cities : List<City>
+        - observers : List<WeatherObserver>
+        - running : boolean
+        - workerThread : Thread
+        + addObserver(WeatherObserver) : void
+        + removeObserver(WeatherObserver) : void
+        + start() : void
+        + stopProvider() : void
+        + run() : void
+    }
+
+    class ConsoleWeatherObserver
+
+    WeatherObserver <|.. ConsoleWeatherObserver
+    WeatherReportProvider o--> WeatherObserver
+    WeatherReportProvider --> City
+}
+
+package "decorator - Decorator Pattern" {
+    interface TravelPlanComponent {
+        + getDescription() : String
+        + getTotalCost() : double
+        + getTotalTimeInHours() : double
+    }
+
+    class BasicCityPlan {
+        - city : City
+        + getDescription() : String
+        + getTotalCost() : double
+        + getTotalTimeInHours() : double
+    }
+
+    abstract class ActivityDecorator {
+        # wrappedPlan : TravelPlanComponent
+        + getDescription() : String
+        + getTotalCost() : double
+        + getTotalTimeInHours() : double
+    }
+
+    class MuseumVisit
+    class ShoppingMallVisit
+    class ParkVisit
+    class CityCenterVisit
+
+    TravelPlanComponent <|.. BasicCityPlan
+    TravelPlanComponent <|.. ActivityDecorator
+    ActivityDecorator <|-- MuseumVisit
+    ActivityDecorator <|-- ShoppingMallVisit
+    ActivityDecorator <|-- ParkVisit
+    ActivityDecorator <|-- CityCenterVisit
+    ActivityDecorator o--> TravelPlanComponent
+    BasicCityPlan --> City
+}
+
+package "gui" {
+    class TravelPlannerFrame {
+        - cityRepository : CityRepository
+        - citySorter : CitySorter
+        - weatherReportProvider : WeatherReportProvider
+        + onWeatherUpdated(List<City>) : void
+    }
+
+    TravelPlannerFrame ..|> WeatherObserver
+    TravelPlannerFrame --> CityRepository
+    TravelPlannerFrame --> CitySorter
+    TravelPlannerFrame --> WeatherReportProvider
+    TravelPlannerFrame --> WeatherIteratorFactory
+    TravelPlannerFrame --> TravelPlanComponent
+}
+
+class Main {
+    + main(String[]) : void
+}
+
+Main --> TravelPlannerFrame
+
+@enduml
