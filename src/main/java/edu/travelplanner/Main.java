@@ -2,9 +2,14 @@ package edu.travelplanner;
 
 import edu.travelplanner.model.City;
 import edu.travelplanner.repository.CityRepository;
+import edu.travelplanner.strategy.AreaSortStrategy;
+import edu.travelplanner.strategy.CitySorter;
+import edu.travelplanner.strategy.NameSortStrategy;
+import edu.travelplanner.strategy.PopulationSortStrategy;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,15 +23,32 @@ public class Main {
                 System.out.println("Singleton CityRepository loaded.");
                 System.out.println("Loaded city count: " + cityRepository.getCityCount());
 
-                System.out.println("Cities:");
-                for (City city : cityRepository.getCities()) {
-                    System.out.println("- " + city);
-                }
+                CitySorter citySorter = new CitySorter(new NameSortStrategy());
+
+                System.out.println();
+                System.out.println("=== Strategy Test: Sort by Name ===");
+                printCities(citySorter.sortCities(cityRepository.getCities()));
+
+                citySorter.setStrategy(new PopulationSortStrategy());
+                System.out.println();
+                System.out.println("=== Strategy Test: Sort by Population ===");
+                printCities(citySorter.sortCities(cityRepository.getCities()));
+
+                citySorter.setStrategy(new AreaSortStrategy());
+                System.out.println();
+                System.out.println("=== Strategy Test: Sort by Area ===");
+                printCities(citySorter.sortCities(cityRepository.getCities()));
 
             } catch (Exception e) {
                 System.err.println("Application could not start.");
                 e.printStackTrace();
             }
         });
+    }
+
+    private static void printCities(List<City> cities) {
+        for (City city : cities) {
+            System.out.println("- " + city);
+        }
     }
 }
